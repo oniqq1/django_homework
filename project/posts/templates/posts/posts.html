@@ -15,8 +15,22 @@
         <a href="{% url 'create_post' %}" class="btn btn-purple">Create New Post</a>
     </div>
 
+        <!-- Самый новый пост -->
+    {% if newest_post %}
+        <div class="card mb-4 border-2 border-purple">
+            <h3 class="mb-2">{{ newest_post.title }} <span class="badge bg-warning text-dark">NEW</span></h3>
+            <p class="text-muted">By {{ newest_post.author }} | {{ newest_post.created_at|date:"d M Y H:i" }}</p>
+            {% if newest_post.category %}
+                <span class="badge bg-purple mb-2">{{ newest_post.category.title }}</span>
+            {% endif %}
+            <p>{{ newest_post.content|truncatechars:200 }}</p>
+            <a href="{% url 'post' newest_post.id %}" class="btn btn-purple btn-sm mt-2">Read More</a>
+        </div>
+    {% endif %}
+
+    <!-- Остальные посты -->
     <div class="row">
-        {% for post in posts %}
+        {% for post in other_posts %}
             <div class="col-md-6 mb-4">
                 <div class="card p-3 h-100">
                     <h4>{{ post.title }}</h4>
@@ -31,7 +45,6 @@
         {% empty %}
             <p>No posts yet.</p>
         {% endfor %}
-    </div>
 </div>
 
 </body>
